@@ -1,0 +1,318 @@
+City-AI — Master Declaration Registry (MDR) v3_full
+Authority: Governance v7
+Merged cumulative registry: MDR v2 + Vehicle Evolution Canon additions from MDR v3
+==========================================================================
+
+CityAI_MasterDeclarationRegistry_v2
+=========================================================================
+Authoritative cumulative registry of variables, function signatures, metadata, and Blackboard keys.
+Covers Guides 1–10 (UE5.6.1 rebuilt). Complements Intake v1_31.
+Format:
+Owner.ScopeOrAsset::Name (Type/Signature, Metadata) [BASE/EXPANSION] — Guide #
+
+=========================================================================
+Guide 1 — Core Project + Baselines
+Project
+- ProjectSettings.Defaults::PlayerControllerClass = BP_PlayerController [BASE] — Guide 1
+- ProjectSettings.Defaults::DefaultPawnClass = BP_DefaultPawnPlaceholder [BASE] — Guide 1
+
+BP_VehicleBase (Pawn, Tag="Vehicle")
+- BP_VehicleBase::MaxSpeed (Float, default=1200, Category=Movement, Editable=True) [BASE] — Guide 1
+- BP_VehicleBase::Acceleration (Float, default=400, Category=Movement, Editable=True) [BASE] — Guide 1
+- BP_VehicleBase::bIsAIControlled (Bool, default=False, Category=AI) [BASE] — Guide 1
+
+BP_PedestrianBase (Character, Tag="Pedestrian")
+- BP_PedestrianBase::WalkSpeed (Float, default=300, Category=Movement, Editable=True) [BASE] — Guide 1
+- BP_PedestrianBase::RunSpeed (Float, default=600, Category=Movement, Editable=True) [BASE] — Guide 1
+- BP_PedestrianBase::bIsAIControlled (Bool, default=False, Category=AI) [BASE] — Guide 1
+
+BP_PlayerController
+- BP_PlayerController::PossessionIndex (Integer, default=0, Category=Input) [BASE] — Guide 1
+
+Enhanced Input — Base Actions
+- IMC_Default (Mapping Context) [BASE] — Guide 1
+- IA_Move (Axis2D) [BASE] — Guide 1
+- IA_Look (Axis2D) [BASE] — Guide 1
+- IA_Jump (Bool) [BASE] — Guide 1
+- IA_Interact (Bool) [BASE] — Guide 1
+
+=========================================================================
+Guide 2 — Structure, Defaults, and Input Probe
+Project Config
+- ProjectSettings.Maps::EditorStartupMap = MainCityMap [BASE] — Guide 2
+- ProjectSettings.Maps::GameDefaultMap = MainCityMap [BASE] — Guide 2
+- ProjectSettings.Performance::FPSBaseline (Int, default=120, ConfigOnly=True) [BASE] — Guide 2
+
+BP_InputProbe_CP
+- BP_InputProbe_CP::AxisValue (Float, default=0.0, Category=Input, Editable=True) [EXPANSION] — Guide 2
+
+=========================================================================
+Guide 3 — Master Debug Framework
+Debug Toggles
+- Debug::MasterDebugToggle (Bool, default=False, Category=Debug, Editable=True) [EXPANSION] — Guide 3
+- Debug::ShowTraffic (Bool, default=False, Category=Debug, Editable=True) [EXPANSION] — Guide 3
+- Debug::ShowPedestrians (Bool, default=False, Category=Debug, Editable=True) [EXPANSION] — Guide 3
+- Debug::ShowSensors (Bool, default=False, Category=Debug, Editable=True) [EXPANSION] — Guide 3
+
+Enhanced Input — Debug
+- IA_DebugToggle (Bool) [EXPANSION] — Guide 3
+
+BP_DebugAnalyticsManager
+- BP_DebugAnalyticsManager::ToggleDebug() (Function, no params) [EXPANSION] — Guide 3
+
+=========================================================================
+Guide 4 — Vehicle Base Movement and Input
+Vehicle Movement Vars
+- BP_VehicleBase::MaxSpeed (Float, default=1200, Category=Movement, Editable=True) [BASE] — Guide 4 (reaffirm)
+- BP_VehicleBase::AccelRate (Float, default=600, Category=Movement, Editable=True) [BASE] — Guide 4
+
+Enhanced Input — Vehicle
+- IA_Throttle (Axis1D) [EXPANSION] — Guide 4
+- IA_Steer (Axis1D) [EXPANSION] — Guide 4
+
+Vehicle Input Functions
+- BP_VehicleBase::SetThrottle (Function, float Value) [EXPANSION] — Guide 4
+- BP_VehicleBase::SetSteer (Function, float Value) [EXPANSION] — Guide 4
+
+=========================================================================
+Guide 5 — Pedestrian Base
+Movement Vars
+- BP_PedestrianBase::WalkSpeed (Float, default=200.0, Category=Movement, Editable=True) [BASE] — Guide 5
+- BP_PedestrianBase::RunSpeed (Float, default=450.0, Category=Movement, Editable=True) [BASE] — Guide 5
+
+Enhanced Input — Pedestrian
+- IA_PedestrianPossessToggle (Bool) [EXPANSION] — Guide 5
+
+Pedestrian Functions
+- BP_PedestrianBase::SetMovementSpeed (Function, float NewSpeed) [EXPANSION] — Guide 5
+
+=========================================================================
+Guide 6 — Vehicle AI Controller
+Debug / AI Vars
+- AI.Vehicle::TestDestination (Vector, default=(2000,0,0), Category=Debug, Editable=True) [EXPANSION] — Guide 6
+
+Controller Behavior
+- BP_CarAIController::MoveToTestDestination (Function, no params) [EXPANSION] — Guide 6
+
+=========================================================================
+Guide 7 — Vehicle AI Blackboard + Behavior Tree
+Blackboard Keys (BB_VehicleAI)
+- BB_VehicleAI::TargetLocation (Vector) [BASE] — Guide 7
+- BB_VehicleAI::TargetActor (Object, base=Pawn) [EXPANSION] — Guide 7
+- BB_VehicleAI::DestinationWaypoint (Object, base=BP_Waypoint) [EXPANSION] — Guide 7
+- BB_VehicleAI::bIsBlocked (Bool, default=False) [EXPANSION] — Guide 7
+
+Functions
+- BP_CarAIController::RunVehicleBT (Function, no params) [EXPANSION] — Guide 7
+- BP_VehicleBase::SeedBlackboardTargetFromTestDestination (Function, no params) [EXPANSION] — Guide 7
+
+=========================================================================
+Guide 8 — Pedestrian AI Blackboard + Behavior Tree
+Blackboard Keys (BB_Pedestrian)
+- BB_Pedestrian::TargetLocation (Vector) [BASE] — Guide 8
+- BB_Pedestrian::HasDestination (Bool, default=False) [FORWARD] — Guide 8
+- BB_Pedestrian::IsCrossing (Bool, default=False) [FORWARD] — Guide 8
+
+Functions
+- BP_PedestrianAIController::RunPedestrianBT (Function, no params) [EXPANSION] — Guide 8
+- BP_PedestrianBase::SeedBlackboardTargetFromDefault (Function, no params) [EXPANSION] — Guide 8
+
+=========================================================================
+Guide 9 — Vehicle Waypoints
+Blackboard Keys
+- BB_VehicleAI::CurrentWaypoint (Object, base=BP_Waypoint) [BASE] — Guide 9
+
+Vehicle Vars
+- BP_VehicleBase::StartingWaypoint (Object, base=BP_Waypoint, InstanceEditable=True) [EXPANSION] — Guide 9
+
+Functions
+- BP_VehicleBase::SeedBlackboardCurrentWaypoint (Function, no params) [EXPANSION] — Guide 9
+- BP_CarAIController::AdvanceToNextWaypoint (Function, no params) [EXPANSION] — Guide 9
+
+=========================================================================
+Guide 10 — Vehicle Waypoint Following Logic
+Functions
+- BP_CarAIController::UpdateCurrentWaypoint (Function, no params) [EXPANSION] — Guide 10
+
+=========================================================================
+Checkpoint
+- MDR v2 consolidates Guides 1–10 variables, functions, and blackboard keys.
+- Intake v1_31 is synchronized: assets/systems only.
+- Future updates will append Guides 11–20 and increment MDR to v3.
+
+=========================================================================
+End of MDR v2
+
+
+==========================================================================
+Vehicle Evolution Canon Additions (from MDR v3)
+==========================================================================
+
+Guide 1 — Vehicle Primitive Mesh Variables
+- name: SM_VehicleBody_Primitive
+  type: StaticMesh
+  default: Cube (200x100x50 cm)
+  metadata:
+    category: Meshes/Vehicles
+    instance_editable: false
+    tooltip: Primitive placeholder vehicle body
+    replication: None
+    save_game: false
+  tags: [Vehicle, Primitive, Placeholder]
+  status: BASE
+  guide_of_origin: Guide 1
+
+- name: SM_VehicleWheel_Primitive
+  type: StaticMesh
+  default: Cylinder (r=30 cm, l=15 cm)
+  metadata:
+    category: Meshes/Vehicles
+    instance_editable: false
+    tooltip: Primitive placeholder vehicle wheel
+    replication: None
+    save_game: false
+  tags: [Vehicle, Wheel, Primitive, Placeholder]
+  status: BASE
+  guide_of_origin: Guide 1
+
+=========================================================================
+Guide 4 — Chaos Vehicle Variables
+- name: MaxSpeed
+  type: float
+  default: 1200.0
+  metadata:
+    category: Movement/Vehicle
+    instance_editable: true
+    tooltip: Vehicle max speed in cm/s
+    replication: None
+    save_game: false
+  tags: [Vehicle, Movement, Chaos]
+  status: BASE
+  guide_of_origin: Guide 4
+
+- name: AccelRate
+  type: float
+  default: 600.0
+  metadata:
+    category: Movement/Vehicle
+    instance_editable: true
+    tooltip: Vehicle acceleration rate
+    replication: None
+    save_game: false
+  tags: [Vehicle, Movement, Chaos]
+  status: BASE
+  guide_of_origin: Guide 4
+
+- name: IA_Throttle
+  type: InputAction
+  default: Axis1D
+  metadata:
+    category: Input/Vehicle
+    instance_editable: false
+    tooltip: Input axis for throttle
+    replication: None
+    save_game: false
+  tags: [Input, Vehicle]
+  status: EXPANSION
+  guide_of_origin: Guide 4
+
+- name: IA_Steer
+  type: InputAction
+  default: Axis1D
+  metadata:
+    category: Input/Vehicle
+    instance_editable: false
+    tooltip: Input axis for steering
+    replication: None
+    save_game: false
+  tags: [Input, Vehicle]
+  status: EXPANSION
+  guide_of_origin: Guide 4
+
+=========================================================================
+Guide 9 — Waypoint Blackboard/Functions
+- name: CurrentWaypoint
+  type: Object (BP_Waypoint)
+  default: None
+  metadata:
+    category: AI/Blackboard
+    instance_editable: true
+    tooltip: Current active waypoint
+    replication: None
+    save_game: false
+  tags: [Waypoint, AI]
+  status: BASE
+  guide_of_origin: Guide 9
+
+- name: StartingWaypoint
+  type: Object (BP_Waypoint)
+  default: None
+  metadata:
+    category: AI/Vehicle
+    instance_editable: true
+    tooltip: Initial waypoint assigned to vehicle
+    replication: None
+    save_game: false
+  tags: [Waypoint, AI, Vehicle]
+  status: EXPANSION
+  guide_of_origin: Guide 9
+
+- name: BP_VehicleBase::SeedBlackboardCurrentWaypoint
+  type: Function
+  default: None
+  metadata:
+    category: AI/Vehicle
+    instance_editable: false
+    tooltip: Seeds BB with StartingWaypoint
+    replication: None
+    save_game: false
+  tags: [Vehicle, AI, Blackboard]
+  status: EXPANSION
+  guide_of_origin: Guide 9
+
+- name: BP_CarAIController::AdvanceToNextWaypoint
+  type: Function
+  default: None
+  metadata:
+    category: AI/Controller
+    instance_editable: false
+    tooltip: Advances vehicle to NextWaypoint
+    replication: None
+    save_game: false
+  tags: [Vehicle, AI, Controller]
+  status: EXPANSION
+  guide_of_origin: Guide 9
+
+=========================================================================
+Guide 10 — Waypoint Looping
+- name: BTTask_UpdateNextWaypoint
+  type: BlueprintTask
+  default: None
+  metadata:
+    category: AI/BehaviorTree
+    instance_editable: false
+    tooltip: Task to update vehicle’s current waypoint
+    replication: None
+    save_game: false
+  tags: [Vehicle, AI, BehaviorTree]
+  status: BASE
+  guide_of_origin: Guide 10
+
+- name: BP_CarAIController::UpdateCurrentWaypoint
+  type: Function
+  default: None
+  metadata:
+    category: AI/Controller
+    instance_editable: false
+    tooltip: Updates current waypoint after reaching NextWaypoint
+    replication: None
+    save_game: false
+  tags: [Vehicle, AI, Controller]
+  status: EXPANSION
+  guide_of_origin: Guide 10
+
+=========================================================================
+End of MDR v3
+
+==========================================================================
+End of MDR v3_full — cumulative across Guides 1–10 including Vehicle Evolution Canon.
