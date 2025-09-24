@@ -1,0 +1,123 @@
+=====================================================================
+CityAI Project — 50 Guides Outline (v2_0)
+Includes Vehicle Evolution Canon (inserted before Guide 4)
+=====================================================================
+
+# City-AI Project — 50 Guide Outline
+
+This file provides the rough skeleton of all guides, grouped into 5 phases of 10 guides each. Each entry lists the title and a one-line intent summary.
+
+---
+## Phase 0 — Project Setup (Guides 1–3)
+1. Creating the UE5.6.1 Project — Third Person Template, Visual Studio integration, folder structure, naming conventions.
+2. Configuring Project Settings — Input mappings, collision defaults, world partition, debug console setup.
+3. Master Debug Framework — Build master debug toggle and individual system debug switches.
+
+---
+## Phase 1 — Core Vehicle + Pedestrian Loop (Guides 4–13)
+4. First Vehicle Blueprint — BP_VehicleBase with simple movement and spline following.
+5. First Pedestrian Blueprint — BP_PedestrianBase with idle/walk and possession capability.
+6. Possession System — Switch control between cars and pedestrians at runtime.
+7. Basic Navigation Setup — NavMesh for pedestrians, splines for vehicles.
+8. Sensors and Perception — Vehicle raycasts/spheres, pedestrian perception of vehicles.
+9. Simple GPS Guidance — Vehicles select random waypoints and follow spline paths.
+10. Testing & Debug Tools — Overhead camera, minimap prototype, path/sensor visualization.
+11. Vehicle Behavior Expansion — Add simple lane discipline and stop/go behavior.
+12. Pedestrian Crossing Basics — Signal obedience and jaywalking percentage.
+13. First Collision Handling — Avoidance, bump response, despawn rules.
+
+---
+## Phase 2 — City Growth Foundations (Guides 14–23)
+14. PCG Road Network Basics — Generate 2-lane road segments with intersections.
+15. PCG Expansion to Suburbs — Add side streets, driveways, parking lots.
+16. Traffic Lights and Stop Signs — Signal logic and intersection priority.
+17. Speed Zones — Freeway, arterials, locals, and school zones.
+18. Day/Night Cycle — Dynamic sky, adjustable time scale, Lumen lighting.
+19. Weather Effects — Rain, reduced visibility, puddles (Lumen compatible).
+20. Multi-Vehicle Testbed — Scale to ~10 vehicles, observe traffic flow.
+21. Multi-Pedestrian Testbed — Scale to ~30 pedestrians, sidewalks active.
+22. Debug Overlays — Show traffic density and pedestrian flow.
+23. Save/Load Prototype — Basic system to reload positions and state.
+
+---
+## Phase 3 — Behavior + Scaling (Guides 24–33)
+24. Behavior Trees for Vehicles — Create BT_Vehicle with Blackboard.
+25. Behavior Trees for Pedestrians — Create BT_Pedestrian profiles.
+26. Emergency Vehicle Spawning — Garage spawn, siren logic, path to crash site.
+27. Taxi Service — Spawn taxis, pickup/dropoff routines.
+28. Bus Routes — Data table of bus stops and schedules.
+29. Service Vehicles — Garbage/delivery stop-go logic.
+30. Advanced Pedestrian Archetypes — Commuter, shopper, tourist, jogger, vendor.
+31. Pedestrian Enter/Drive Vehicles — Ownership system: driver vs sidewalk dummy.
+32. Despawn/Respawn Rules — Out-of-view pooling for FPS priority.
+33. Group Behaviors — Pedestrian clustering, convoy vehicles.
+
+---
+## Phase 4 — Systems Integration (Guides 34–43)
+34. HUD and Minimap — Player position, GPS overlay, traffic flow visualization.
+35. Debug Analytics Dashboard — Agent counts, FPS impact, sensor ranges.
+36. Player Garage and Vehicle Selection — UI for available cars, calling a taxi.
+37. Save/Load Expansion — Persistent ownership and garage state.
+38. Building Interiors — Simple enter/exit, random dwell times.
+39. Pedestrian Routines — Work, shop, leisure, daily cycles.
+40. Cinematic Overhead Camera — Drone view, real-time city observation.
+41. Performance Profiling — HLOD, LOD, despawn rules, Mass Traffic tuning.
+42. Stress Testing — Scale to hundreds of cars/peds, FPS checks.
+43. Bug Tracking & Debug Gates — Verify all debug toggles and logs function.
+
+---
+## Phase 5 — Full City Simulation (Guides 44–50)
+44. PCG Suburban Expansion — Add outer neighborhoods with parking.
+45. PCG Freeway System — On/off ramps, safe merges, 70mph zones.
+46. Sky Roads — Aerial spline lanes and flying vehicle logic.
+47. Advanced Agent Profiles — Aggressive, cautious, distracted, taxis.
+48. Emergency Response Integration — Police, ambulance, fire with routines.
+49. Final Optimization Pass — Ensure stable 50 FPS with all systems.
+50. Packaging for Marketplace — Build shipping package, version tagging, distribution prep.
+
+---
+
+
+
+=========================================================================
+Addendum — Vehicle Evolution Canon (Inserted Before Guide 4)
+=========================================================================
+
+Vehicle Evolution Principle
+---------------------------
+The Vehicle Base evolves across the course, beginning as a primitive mesh placeholder 
+and gradually becoming a fully rigged Chaos Vehicle with skeletal suspension. 
+Each step is documented in teaching style and mirrored in the MDR.
+
+1. Primitive Placeholder (Guides 1–3 context, implemented at Guide 4)
+   - Create vehicle using Unreal Engine Modeling Tools.
+   - Cube body + cylinder wheels.
+   - Exact dimensions, pivot placement, and transforms must be provided numerically (cm scale).
+   - Enables testing AI logic with minimal assets.
+
+2. Chaos Upgrade (Guide 4 onward)
+   - Replace primitives with ChaosWheeledVehicleMovementComponent integration.
+   - Refine mesh using Modeling Editor (extrusions, bevels, pivots).
+   - MDR logs Chaos params (wheel radius, suspension length, mass).
+
+3. Physics Integration (mid-phase, ~Guides 10–20)
+   - Add Physics Asset (PhysicsAsset tool).
+   - Configure collisions, mass distribution.
+   - MDR logs tunables (friction, restitution, damping).
+
+4. Skeletal Rigging (~Guides 20–30)
+   - Convert to skeletal mesh with bones for chassis, wheels, suspension.
+   - UE Skeletal Editor or external DCC pipeline (FBX).
+   - MDR logs skeleton, bone names, sockets.
+
+5. Final Vehicle (post-Guide 30)
+   - Complete Chaos skeletal vehicle.
+   - Supports suspension, steering, AI/player possession, multiplayer readiness.
+
+Canon Enforcement
+-----------------
+- Intake logs evolving assets only (BP_VehicleBase, meshes, skeletons, physics assets).
+- MDR logs variables and settings with Guide-of-Origin.
+- Guides must include exact modeling steps and values, no shorthand.
+
+=========================================================================
